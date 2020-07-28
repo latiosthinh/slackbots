@@ -6,13 +6,17 @@ const exchangeURL = 'http://data.fixer.io/api/latest?access_key=0b5799d1638139b8
 let jokes = [],
 	menus = [];
 
+const dotenv   = require( 'dotenv' );
+dotenv.config();
+const channel = `${ process.env.BOT_CHANNEL }`;
+
 const sayHi = ( bot ) => {
 	let helloMessage = 'Hi! I\'m MeoMeo! How are you doing? \n';
 		helloMessage += 'I can "help" you out in no time. \n';
 		helloMessage += 'mention @meomeo with "joke" | "dinner" | "gold" | "vnd" to play around. \n';
 		helloMessage += 'MEOW!!';
 
-	bot.postMessageToChannel( 'general', helloMessage );
+	bot.postMessageToChannel( channel, helloMessage );
 
 	jokes = getJokes();
 	menus = getMenu();
@@ -39,19 +43,19 @@ var MEO = {};
 MEO.help = ( bot ) => {
 	const options = 'mention @meomeo with "joke" | "dinner" | "gold" | "vnd" to "cuddle" with him';
 
-	bot.postMessageToChannel( 'general', options );
+	bot.postMessageToChannel( channel, options );
 }
 
 MEO.joke = ( bot ) => {
 	let randomJoke = jokes[ Math.floor( Math.random() * jokes.length ) ];
 
-	bot.postMessageToChannel( 'general', randomJoke );
+	bot.postMessageToChannel( channel, randomJoke );
 }
 
 MEO.dinner = ( bot ) => {
 	let randomMenu = menus[ Math.floor( Math.random() * menus.length ) ];
 
-	bot.postMessageToChannel( 'general', randomMenu );
+	bot.postMessageToChannel( channel, randomMenu );
 }
 
 MEO.vnd = ( bot ) => {
@@ -74,7 +78,7 @@ MEO.vnd = ( bot ) => {
 
 			const message = `1 EUR = ${ vndRate } VND \n 1 USD = ${ usdvnd } VND \n 1 CNY = ${ cnyvnd } VND \n 1 JPY = ${ jpyvnd } VND \n 1 KRW = ${ krwvnd } VND \n 1 THB = ${ thbvnd } VND`
 
-			bot.postMessageToChannel( 'general', message );
+			bot.postMessageToChannel( channel, message );
 		} )
 }
 
@@ -84,7 +88,7 @@ MEO.gold = ( bot ) => {
 		message += `\n${ el }`
 	} );
 
-	bot.postMessageToChannel( 'general', message );
+	bot.postMessageToChannel( channel, message );
 }
 
 module.exports = {
