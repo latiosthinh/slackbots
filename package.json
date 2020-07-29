@@ -2,6 +2,9 @@
 	"name": "slackbot",
 	"version": "1.0.0",
 	"description": "A test slackbot from Thomas Nguyen",
+	"engines": {
+		"node": "12.18.xs"
+	},
 	"main": "index.js",
 	"scripts": {
 		"start": "nodemon index.js",
@@ -11,7 +14,7 @@
 		"type": "git",
 		"url": "git+https://github.com/latiosthinh/slackbots.git"
 	},
-	"author": "latiosthinh",
+	"author": "latiosthinh",s
 	"license": "ISC",
 	"bugs": {
 		"url": "https://github.com/latiosthinh/slackbots/issues"
