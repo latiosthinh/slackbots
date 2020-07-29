@@ -7,7 +7,7 @@
 	},
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon index.js"
+		"start": "node index.js"
 	},
 	"repository": {
 		"type": "git",
@@ -25,6 +25,7 @@
 		"dotenv": "^8.2.0",
 		"googleapis": "^39.2.0",
 		"node-fetch": "^2.6.0",
+		"nodemon": "^2.0.4",
 		"request": "^2.88.2",
 		"request-promise": "^4.2.6",
 		"slackbots": "^1.2.0"
