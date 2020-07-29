@@ -14,7 +14,7 @@
 		"type": "git",
 		"url": "git+https://github.com/latiosthinh/slackbots.git"
 	},
-	"author": "latiosthinh",s
+	"author": "latiosthinh",
 	"license": "ISC",
 	"bugs": {
 		"url": "https://github.com/latiosthinh/slackbots/issues"
