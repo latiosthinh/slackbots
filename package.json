@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "A test slackbot from Thomas Nguyen",
 	"engines": {
-		"node": "12.18.xs"
+		"node": "12.18.x"
 	},
 	"main": "index.js",
 	"scripts": {
