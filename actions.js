@@ -1,5 +1,5 @@
-const fetch            = require( 'node-fetch' );
-const { getJokes, getMenu, priceArr } = require( './helper' );
+const fetch = require( 'node-fetch' );
+const { getJokes, getMenu, getMemberInfo, priceArr } = require( './helper' );
 
 const exchangeURL = 'http://data.fixer.io/api/latest?access_key=0b5799d1638139b86f5730be7a8e8b54&format=1';
 
@@ -12,6 +12,7 @@ dotenv.config();
 const prepareData = () => {
 	jokes = getJokes();
 	menus = getMenu();
+	getMemberInfo( 4 );
 }
 
 const handleMessage = ( message, bot, channel ) => {
@@ -24,17 +25,10 @@ const handleMessage = ( message, bot, channel ) => {
 	Object.values( MEO )
 		.filter( val => typeof val === 'function' )
 		.forEach( val => val( bot, channel, message ) );
-
-	// MEO.joke( bot, channel );
-	// MEO.gold( bot, channel );
-	// MEO.vnd( bot, channel );
-	// MEO.dinner( bot, channel );
-
-	// MEO.help( bot, channel );
 }
 
-const MEO = {
-	getHelp: ( bot, channel, message ) => {
+class MEO {
+	static getHelp = ( bot, channel, message ) => {
 		const key_words = /(help)/g;
 		if ( ! message.match( key_words ) ) {
 			return;
@@ -43,8 +37,9 @@ const MEO = {
 		const options = 'type meomeo with "joke" | "dinner" | "gold" | "vnd" to "cuddle" with him';
 
 		bot.postMessage( channel, options );
-	},
-	makeJoke: ( bot, channel, message ) => {
+	}
+
+	static makeJoke = ( bot, channel, message ) => {
 		const key_words = /(joke|funny|cười|truyện)/g;
 		if ( ! message.match( key_words ) ) {
 			return;
@@ -53,8 +48,9 @@ const MEO = {
 		let randomJoke = jokes[ Math.floor( Math.random() * jokes.length ) ];
 
 		bot.postMessage( channel, randomJoke );
-	},
-	prepareDinner: ( bot, channel, message ) => {
+	}
+
+	static prepareDinner = ( bot, channel, message ) => {
 		const key_words = /(dinner|ăn|tối nay)/g;
 		if ( ! message.match( key_words ) ) {
 			return;
@@ -63,8 +59,39 @@ const MEO = {
 		let randomMenu = menus[ Math.floor( Math.random() * menus.length ) ];
 
 		bot.postMessage( channel, randomMenu );
-	},
-	convertToVnd: ( bot, channel, message ) => {
+	}
+
+	static tellMemberInfo = ( bot, channel, message ) => {
+		const key_words = /(sep|viet|long|huong|linh|loc|hai|thanh)/g;
+		if ( ! message.match( key_words ) ) {
+			return;
+		}
+
+		const indexTable = {
+			'sep': 3,
+			'viet': 4,
+			'long': 5,
+			'huong lon': 6,
+			'linh': 7,
+			'hai': 8,
+			'loc': 9,
+			'huong be': 10,
+			'thanh': 11,
+			'linh be': 12
+		};
+
+		for ( let key in indexTable ) {
+			if ( message.includes( key ) ) {
+				console.log(indexTable[key])
+				let infos = getMemberInfo( indexTable[ key ] );
+				let randomInfo = infos[ Math.floor( Math.random() * infos.length ) ]
+
+				bot.postMessage( channel, randomInfo );
+			}
+		}
+	}
+
+	static convertToVnd = ( bot, channel, message ) => {
 		const key_words = /(vnd|usd|cny|jpy|krw|thb)/g;
 		if ( ! message.match( key_words ) ) {
 			return;
@@ -91,8 +118,9 @@ const MEO = {
 
 				bot.postMessage( channel, message_content );
 			} )
-	},
-	showGoldRate: ( bot, channel, message ) => {
+	}
+
+	static showGoldRate = ( bot, channel, message ) => {
 		const key_words = /(gold|vàng)/g;
 		if ( ! message.match( key_words ) ) {
 			return;
@@ -104,9 +132,6 @@ const MEO = {
 		} );
 
 		bot.postMessage( channel, message_content );
-	},
-	getMemberInfo: ( bot, channel, message ) => {
-		
 	}
 };
 

@@ -9,7 +9,7 @@ const getJokes = () => {
 	let jokes = [];
 
 	const readerOptions = {
-		sheetId         : '1zdbpRl59WqS_Gum7ndKTez7hXPGGoMM-dpbxXAA9YsA',
+		sheetId         : sheetID,
 		sheetNumber     : 1,
 		returnAllResults: true,
 	};
@@ -24,7 +24,6 @@ const getJokes = () => {
 
 	return jokes;
 }
-
 
 const getMenu = () => {
 	let menus = [];
@@ -42,8 +41,28 @@ const getMenu = () => {
 			}
 		});
 	} );
-	
+
 	return menus;
+}
+
+const getMemberInfo = ( sheetNum ) => {
+	let infos = [];
+
+	const readerOptions = {
+		sheetId         : sheetID,
+		sheetNumber     : sheetNum,
+		returnAllResults: true,
+	};
+
+	reader( readerOptions, ( res ) => {
+		res.forEach( el => {
+			infos.push( el.info );
+		});
+	} );
+
+	console.log(infos)
+	
+	return infos;
 }
 
 
@@ -87,5 +106,6 @@ getGoldPrice();
 module.exports = {
 	getJokes,
 	getMenu,
+	getMemberInfo,
 	priceArr,
 };
