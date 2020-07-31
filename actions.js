@@ -34,7 +34,7 @@ const handleMessage = ( message, bot, channel ) => {
 }
 
 const MEO = {
-	help: ( bot, channel, message ) => {
+	getHelp: ( bot, channel, message ) => {
 		const key_words = /(help)/g;
 		if ( ! message.match( key_words ) ) {
 			return;
@@ -44,7 +44,7 @@ const MEO = {
 
 		bot.postMessage( channel, options );
 	},
-	joke: ( bot, channel, message ) => {
+	makeJoke: ( bot, channel, message ) => {
 		const key_words = /(joke|funny|cười|truyện)/g;
 		if ( ! message.match( key_words ) ) {
 			return;
@@ -54,7 +54,7 @@ const MEO = {
 
 		bot.postMessage( channel, randomJoke );
 	},
-	dinner: ( bot, channel, message ) => {
+	prepareDinner: ( bot, channel, message ) => {
 		const key_words = /(dinner|ăn|tối nay)/g;
 		if ( ! message.match( key_words ) ) {
 			return;
@@ -64,7 +64,7 @@ const MEO = {
 
 		bot.postMessage( channel, randomMenu );
 	},
-	vnd: ( bot, channel, message ) => {
+	convertToVnd: ( bot, channel, message ) => {
 		const key_words = /(vnd|usd|cny|jpy|krw|thb)/g;
 		if ( ! message.match( key_words ) ) {
 			return;
@@ -92,7 +92,7 @@ const MEO = {
 				bot.postMessage( channel, message_content );
 			} )
 	},
-	gold: ( bot, channel, message ) => {
+	showGoldRate: ( bot, channel, message ) => {
 		const key_words = /(gold|vàng)/g;
 		if ( ! message.match( key_words ) ) {
 			return;
@@ -105,7 +105,7 @@ const MEO = {
 
 		bot.postMessage( channel, message_content );
 	},
-	getInfo: ( bot, channel, message ) => {
+	getMemberInfo: ( bot, channel, message ) => {
 		
 	}
 };
