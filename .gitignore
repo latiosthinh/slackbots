@@ -1,5 +1,5 @@
 /node_modules
 *-lock.json
 *.md
-*.env_sample
-*.env
+.env_sample
+.env

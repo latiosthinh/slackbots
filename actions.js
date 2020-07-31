@@ -8,90 +8,109 @@ let jokes = [],
 
 const dotenv   = require( 'dotenv' );
 dotenv.config();
-const channel = `${ process.env.BOT_CHANNEL }`;
 
-const sayHi = ( bot ) => {
-	let helloMessage = 'Hi! I\'m MeoMeo! How are you doing? \n';
-		helloMessage += 'I can "help" you out in no time. \n';
-		helloMessage += 'mention @meomeo with "joke" | "dinner" | "gold" | "vnd" to play around. \n';
-		helloMessage += 'MEOW!!';
-
-	bot.postMessageToChannel( channel, helloMessage );
-
+const prepareData = () => {
 	jokes = getJokes();
 	menus = getMenu();
 }
 
-/**
- * 
- * `Spacing` before message to prevent: 
- * - `helper message` fire event
- * - event hell loop 
- */
-const handleMessage = ( message, bot ) => {
-	const keywords = [ ' help', ' joke', ' dinner', ' vnd', ' gold' ];
+const handleMessage = ( message, bot, channel ) => {
+	const keyword = 'meomeo';
 
-	keywords.forEach( el => {
-		if ( message.includes( el ) ) {
-			MEO[ el.replace(/\s/g, '') ]( bot );
+	if ( ! message.includes( keyword ) ) {
+		return;
+	}
+
+	Object.values( MEO )
+		.filter( val => typeof val === 'function' )
+		.forEach( val => val( bot, channel, message ) );
+
+	// MEO.joke( bot, channel );
+	// MEO.gold( bot, channel );
+	// MEO.vnd( bot, channel );
+	// MEO.dinner( bot, channel );
+
+	// MEO.help( bot, channel );
+}
+
+const MEO = {
+	help: ( bot, channel, message ) => {
+		const key_words = /(help)/g;
+		if ( ! message.match( key_words ) ) {
+			return;
 		}
-	} );
-}
 
-var MEO = {};
+		const options = 'type meomeo with "joke" | "dinner" | "gold" | "vnd" to "cuddle" with him';
 
-MEO.help = ( bot ) => {
-	const options = 'mention @meomeo with "joke" | "dinner" | "gold" | "vnd" to "cuddle" with him';
+		bot.postMessage( channel, options );
+	},
+	joke: ( bot, channel, message ) => {
+		const key_words = /(joke|funny|cười|truyện)/g;
+		if ( ! message.match( key_words ) ) {
+			return;
+		}
 
-	bot.postMessageToChannel( channel, options );
-}
+		let randomJoke = jokes[ Math.floor( Math.random() * jokes.length ) ];
 
-MEO.joke = ( bot ) => {
-	let randomJoke = jokes[ Math.floor( Math.random() * jokes.length ) ];
+		bot.postMessage( channel, randomJoke );
+	},
+	dinner: ( bot, channel, message ) => {
+		const key_words = /(dinner|ăn|tối nay)/g;
+		if ( ! message.match( key_words ) ) {
+			return;
+		}
 
-	bot.postMessageToChannel( channel, randomJoke );
-}
+		let randomMenu = menus[ Math.floor( Math.random() * menus.length ) ];
 
-MEO.dinner = ( bot ) => {
-	let randomMenu = menus[ Math.floor( Math.random() * menus.length ) ];
+		bot.postMessage( channel, randomMenu );
+	},
+	vnd: ( bot, channel, message ) => {
+		const key_words = /(vnd|usd|cny|jpy|krw|thb)/g;
+		if ( ! message.match( key_words ) ) {
+			return;
+		}
 
-	bot.postMessageToChannel( channel, randomMenu );
-}
+		fetch( exchangeURL )
+			.then( res => res.json() )
+			.then( data => {
+				const usdRate = data.rates.USD;
+				const cnyRate = data.rates.CNY;
+				const jpyRate = data.rates.JPY;
+				const krwRate = data.rates.KRW;
+				const thbRate = data.rates.THB;
 
-MEO.vnd = ( bot ) => {
-	fetch( exchangeURL )
-		.then( res => res.json() )
-		.then( data => {
-			const usdRate = data.rates.USD;
-			const cnyRate = data.rates.CNY;
-			const jpyRate = data.rates.JPY;
-			const krwRate = data.rates.KRW;
-			const thbRate = data.rates.THB;
+				const vndRate = data.rates.VND;
 
-			const vndRate = data.rates.VND;
+				const usdvnd  = Math.round( ( vndRate/usdRate + Number.EPSILON ) * 1000 ) / 1000;
+				const cnyvnd  = Math.round( ( vndRate/cnyRate + Number.EPSILON ) * 1000 ) / 1000;
+				const jpyvnd  = Math.round( ( vndRate/jpyRate + Number.EPSILON ) * 1000 ) / 1000;
+				const krwvnd  = Math.round( ( vndRate/krwRate + Number.EPSILON ) * 1000 ) / 1000;
+				const thbvnd  = Math.round( ( vndRate/thbRate + Number.EPSILON ) * 1000 ) / 1000;
 
-			const usdvnd  = Math.round( ( vndRate/usdRate + Number.EPSILON ) * 1000 ) / 1000;
-			const cnyvnd  = Math.round( ( vndRate/cnyRate + Number.EPSILON ) * 1000 ) / 1000;
-			const jpyvnd  = Math.round( ( vndRate/jpyRate + Number.EPSILON ) * 1000 ) / 1000;
-			const krwvnd  = Math.round( ( vndRate/krwRate + Number.EPSILON ) * 1000 ) / 1000;
-			const thbvnd  = Math.round( ( vndRate/thbRate + Number.EPSILON ) * 1000 ) / 1000;
+				const message_content = `1 EUR = ${ vndRate } VND \n 1 USD = ${ usdvnd } VND \n 1 CNY = ${ cnyvnd } VND \n 1 JPY = ${ jpyvnd } VND \n 1 KRW = ${ krwvnd } VND \n 1 THB = ${ thbvnd } VND`
 
-			const message = `1 EUR = ${ vndRate } VND \n 1 USD = ${ usdvnd } VND \n 1 CNY = ${ cnyvnd } VND \n 1 JPY = ${ jpyvnd } VND \n 1 KRW = ${ krwvnd } VND \n 1 THB = ${ thbvnd } VND`
+				bot.postMessage( channel, message_content );
+			} )
+	},
+	gold: ( bot, channel, message ) => {
+		const key_words = /(gold|vàng)/g;
+		if ( ! message.match( key_words ) ) {
+			return;
+		}
 
-			bot.postMessageToChannel( channel, message );
-		} )
-}
+		let message_content = 'Giá vàng hiện tại: \n';
+		priceArr.forEach( el => {
+			message_content += `\n${ el }`
+		} );
 
-MEO.gold = ( bot ) => {
-	let message = 'Giá vàng hiện tại: \n';
-	priceArr.forEach( el => {
-		message += `\n${ el }`
-	} );
-
-	bot.postMessageToChannel( channel, message );
-}
+		bot.postMessage( channel, message_content );
+	},
+	getInfo: ( bot, channel, message ) => {
+		
+	}
+};
 
 module.exports = {
-	sayHi,
+	prepareData,
 	handleMessage,
 };

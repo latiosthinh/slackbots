@@ -1,27 +1,42 @@
 const SlackBot = require( 'slackbots' );
 const dotenv   = require( 'dotenv' );
 
-const { sayHi, handleMessage } = require( './actions' );
-
 dotenv.config();
 
-const BOT_TOKEN = `${ process.env.BOT_TOKEN }`;
+const { prepareData, handleMessage } = require( './actions' );
+
+const simsimi = require( 'simsimi' )( {
+	key: `${ process.env.SIMSIMI_KEY_1 }`,
+    lc: 'vn',
+    ft: '1.0'
+} );
 
 const bot = new SlackBot( {
-	token: BOT_TOKEN,
-	name: 'meomeo'
+	token: `${ process.env.BOT_TOKEN }`,
+	name: 'meow'
 } );
 
 bot.on( 'start', () => {
-	sayHi( bot );
-});
+	prepareData();
+} );
 
 bot.on( 'error', ( err ) => console.log( err ) );
 
-bot.on( 'message', ( data ) => {
-	if ( 'message' !== data.type ) {
+bot.on( 'message', async ( data ) => {
+	if ( 'message' !== data.type || 'meow' === data.username ) {
 		return;
 	}
 
-	handleMessage( data.text, bot );
+	const message = data.text;
+	const channel = data.channel;
+
+	const key_words = /meomeo/i;
+	if ( message.match( key_words ) ) {
+		handleMessage( message, bot, channel );
+	} else {
+		simsimi( message ).then( res => {
+			bot.postMessage( channel, res );
+		}, e => console.error( 'simsimi error:', e ) );
+	}
 } )
+
