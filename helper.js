@@ -1,73 +1,44 @@
-const reader  = require( 'g-sheets-api' );
-const sheetID = '1zdbpRl59WqS_Gum7ndKTez7hXPGGoMM-dpbxXAA9YsA';
+const dotenv = require( 'dotenv' );
+dotenv.config();
+
+const { GoogleSpreadsheet } = require('google-spreadsheet');
+const doc = new GoogleSpreadsheet( `${ process.env.SHEET_ID }` );
+doc.useApiKey( `${ process.env.SHEET_API }` );
 
 const rp  = require( 'request-promise' );
 const $   = require('cheerio');
-const url = 'http://sjc.com.vn/giavang/textContent.php';
+const url = `${ process.env.FETCH_URL }`;
 
-const getJokes = () => {
-	let jokes = [];
+const getCommonData = async ( sheetNumber ) => {
+	await doc.loadInfo();
+	const sheet = doc.sheetsByIndex[ sheetNumber ]; // sheet joke
 
-	const readerOptions = {
-		sheetId         : sheetID,
-		sheetNumber     : 1,
-		returnAllResults: true,
-	};
+	await sheet.loadCells('A1:A26000');
 
-	reader( readerOptions, ( res ) => {
-		res.forEach( el => {
-			for( let i in el ) {
-				jokes.push( el[i] );
-			}
-		});
-	} );
+	let data = [];
+	for ( let i=0; i<sheet.cellStats.nonEmpty; i++ ) {
+		data.push( sheet.getCell( i, 0 ).formattedValue )
+	}
 
-	return jokes;
+	return data;
 }
 
-const getMenu = () => {
-	let menus = [];
+const getMemberInfo = async () => {
+	await doc.loadInfo();
+	const sheet = doc.sheetsByIndex[2]; // sheet member
 
-	const readerOptions = {
-		sheetId         : sheetID,
-		sheetNumber     : 2,
-		returnAllResults: true,
-	};
+	await sheet.loadCells( 'A2:J2' );
 
-	reader( readerOptions, ( res ) => {
-		res.forEach( el => {
-			for( let i in el ) {
-				menus.push( el[i] );
-			}
-		});
-	} );
-
-	return menus;
-}
-
-const getMemberInfo = ( sheetNum ) => {
 	let infos = [];
+	for ( let i=0; i<10; i++ ) {
+		infos.push( sheet.getCell( 1, i ).formattedValue )
+	}
 
-	const readerOptions = {
-		sheetId         : sheetID,
-		sheetNumber     : sheetNum,
-		returnAllResults: true,
-	};
-
-	reader( readerOptions, ( res ) => {
-		res.forEach( el => {
-			infos.push( el.info );
-		});
-	} );
-
-	console.log(infos)
-	
 	return infos;
 }
 
-
-var priceArr = [];
 async function getGoldPrice() {
+	let priceArr     = [];
 	let titleArr     = [];
 	let priceBuyArr  = [];
 	let priceSellArr = [];
@@ -97,15 +68,12 @@ async function getGoldPrice() {
 		.catch( ( err ) => {
 			console.log( err );
 		} );
-	
+
 	return priceArr;
 }
 
-getGoldPrice();
-
 module.exports = {
-	getJokes,
-	getMenu,
+	getCommonData,
 	getMemberInfo,
-	priceArr,
+	getGoldPrice,
 };

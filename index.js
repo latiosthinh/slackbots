@@ -1,9 +1,8 @@
 const SlackBot = require( 'slackbots' );
 const dotenv   = require( 'dotenv' );
-
 dotenv.config();
 
-const { prepareData, handleMessage } = require( './actions' );
+const { handleMessage } = require( './actions' );
 
 const simsimi = require( 'simsimi' )( {
 	key: `${ process.env.SIMSIMI_KEY_1 }`,
@@ -16,9 +15,9 @@ const bot = new SlackBot( {
 	name: 'meow'
 } );
 
-bot.on( 'start', () => {
-	prepareData();
-} );
+// bot.on( 'start', () => {
+// 	prepareData();
+// } );
 
 bot.on( 'error', ( err ) => console.log( err ) );
 

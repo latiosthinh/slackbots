@@ -1,19 +1,10 @@
 const fetch = require( 'node-fetch' );
-const { getJokes, getMenu, getMemberInfo, priceArr } = require( './helper' );
+const { getCommonData, getMemberInfo, getGoldPrice } = require( './helper' );
 
 const exchangeURL = 'http://data.fixer.io/api/latest?access_key=0b5799d1638139b86f5730be7a8e8b54&format=1';
 
-let jokes = [],
-	menus = [];
-
 const dotenv   = require( 'dotenv' );
 dotenv.config();
-
-const prepareData = () => {
-	jokes = getJokes();
-	menus = getMenu();
-	getMemberInfo( 4 );
-}
 
 const handleMessage = ( message, bot, channel ) => {
 	const keyword = 'meomeo';
@@ -45,9 +36,10 @@ class MEO {
 			return;
 		}
 
-		let randomJoke = jokes[ Math.floor( Math.random() * jokes.length ) ];
-
-		bot.postMessage( channel, randomJoke );
+		getCommonData( 0 ).then( res => {
+			let randomJoke = res[ Math.floor( Math.random() * res.length ) ];
+			bot.postMessage( channel, randomJoke );
+		} );
 	}
 
 	static prepareDinner = ( bot, channel, message ) => {
@@ -56,37 +48,36 @@ class MEO {
 			return;
 		}
 
-		let randomMenu = menus[ Math.floor( Math.random() * menus.length ) ];
-
-		bot.postMessage( channel, randomMenu );
+		getCommonData( 1 ).then( res => {
+			let randomFood = res[ Math.floor( Math.random() * res.length ) ];
+			bot.postMessage( channel, randomFood );
+		} );
 	}
 
 	static tellMemberInfo = ( bot, channel, message ) => {
-		const key_words = /(sep|viet|long|huong|linh|loc|hai|thanh)/g;
+		const key_words = /(sếp|việt|long|hương|linh|lộc|hải|thanh)/g;
 		if ( ! message.match( key_words ) ) {
 			return;
 		}
 
 		const indexTable = {
-			'sep': 3,
-			'viet': 4,
-			'long': 5,
-			'huong lon': 6,
-			'linh': 7,
-			'hai': 8,
-			'loc': 9,
-			'huong be': 10,
-			'thanh': 11,
-			'linh be': 12
+			'sếp': 0,
+			'việt': 1,
+			'long': 2,
+			'hương lớn': 3,
+			'linh lớn': 4,
+			'hải': 5,
+			'lộc': 6,
+			'hương bé': 7,
+			'thanh': 8,
+			'linh bé': 9
 		};
 
 		for ( let key in indexTable ) {
 			if ( message.includes( key ) ) {
-				console.log(indexTable[key])
-				let infos = getMemberInfo( indexTable[ key ] );
-				let randomInfo = infos[ Math.floor( Math.random() * infos.length ) ]
-
-				bot.postMessage( channel, randomInfo );
+				getMemberInfo().then( res => {
+					bot.postMessage( channel, res[ indexTable[key] ] );
+				} );
 			}
 		}
 	}
@@ -127,15 +118,16 @@ class MEO {
 		}
 
 		let message_content = 'Giá vàng hiện tại: \n';
-		priceArr.forEach( el => {
-			message_content += `\n${ el }`
-		} );
+		getGoldPrice().then( res => {
+			res.forEach( el => {
+				message_content += `\n${ el }`
+			} );
 
-		bot.postMessage( channel, message_content );
+			bot.postMessage( channel, message_content );
+		} )
 	}
 };
 
 module.exports = {
-	prepareData,
 	handleMessage,
 };
