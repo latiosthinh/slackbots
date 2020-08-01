@@ -15,10 +15,6 @@ const bot = new SlackBot( {
 	name: 'meow'
 } );
 
-// bot.on( 'start', () => {
-// 	prepareData();
-// } );
-
 bot.on( 'error', ( err ) => console.log( err ) );
 
 bot.on( 'message', async ( data ) => {

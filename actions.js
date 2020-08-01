@@ -1,15 +1,12 @@
 const fetch = require( 'node-fetch' );
+const { MeoData } = require( './data' );
 const { getCommonData, getMemberInfo, getGoldPrice } = require( './helper' );
-
-const exchangeURL = 'http://data.fixer.io/api/latest?access_key=0b5799d1638139b86f5730be7a8e8b54&format=1';
 
 const dotenv   = require( 'dotenv' );
 dotenv.config();
 
 const handleMessage = ( message, bot, channel ) => {
-	const keyword = 'meomeo';
-
-	if ( ! message.includes( keyword ) ) {
+	if ( ! message.includes( MeoData.key_words_trigger ) ) {
 		return;
 	}
 
@@ -20,8 +17,7 @@ const handleMessage = ( message, bot, channel ) => {
 
 class MEO {
 	static getHelp = ( bot, channel, message ) => {
-		const key_words = /(help)/g;
-		if ( ! message.match( key_words ) ) {
+		if ( ! message.match( MeoData.key_words_help ) ) {
 			return;
 		}
 
@@ -31,8 +27,7 @@ class MEO {
 	}
 
 	static makeJoke = ( bot, channel, message ) => {
-		const key_words = /(joke|funny|cười|truyện)/g;
-		if ( ! message.match( key_words ) ) {
+		if ( ! message.match( MeoData.key_words_joke ) ) {
 			return;
 		}
 
@@ -43,8 +38,7 @@ class MEO {
 	}
 
 	static prepareDinner = ( bot, channel, message ) => {
-		const key_words = /(dinner|ăn|tối nay)/g;
-		if ( ! message.match( key_words ) ) {
+		if ( ! message.match( MeoData.key_words_dinner ) ) {
 			return;
 		}
 
@@ -55,40 +49,25 @@ class MEO {
 	}
 
 	static tellMemberInfo = ( bot, channel, message ) => {
-		const key_words = /(sếp|việt|long|hương|linh|lộc|hải|thanh)/g;
-		if ( ! message.match( key_words ) ) {
+		if ( ! message.match( MeoData.key_words_member ) ) {
 			return;
 		}
 
-		const indexTable = {
-			'sếp': 0,
-			'việt': 1,
-			'long': 2,
-			'hương lớn': 3,
-			'linh lớn': 4,
-			'hải': 5,
-			'lộc': 6,
-			'hương bé': 7,
-			'thanh': 8,
-			'linh bé': 9
-		};
-
-		for ( let key in indexTable ) {
+		for ( let key in MeoData.indexTable ) {
 			if ( message.includes( key ) ) {
 				getMemberInfo().then( res => {
-					bot.postMessage( channel, res[ indexTable[key] ] );
+					bot.postMessage( channel, res[ MeoData.indexTable[key] ] );
 				} );
 			}
 		}
 	}
 
 	static convertToVnd = ( bot, channel, message ) => {
-		const key_words = /(vnd|usd|cny|jpy|krw|thb)/g;
-		if ( ! message.match( key_words ) ) {
+		if ( ! message.match( MeoData.key_words_currency ) ) {
 			return;
 		}
 
-		fetch( exchangeURL )
+		fetch( MeoData.exchangeURL )
 			.then( res => res.json() )
 			.then( data => {
 				const usdRate = data.rates.USD;
@@ -112,8 +91,7 @@ class MEO {
 	}
 
 	static showGoldRate = ( bot, channel, message ) => {
-		const key_words = /(gold|vàng)/g;
-		if ( ! message.match( key_words ) ) {
+		if ( ! message.match( MeoData.key_words_gold ) ) {
 			return;
 		}
 
