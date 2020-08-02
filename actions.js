@@ -6,10 +6,6 @@ const dotenv   = require( 'dotenv' );
 dotenv.config();
 
 const handleMessage = ( message, bot, channel ) => {
-	if ( ! message.includes( MeoData.key_words_trigger ) ) {
-		return;
-	}
-
 	Object.values( MEO )
 		.filter( val => typeof val === 'function' )
 		.forEach( val => val( bot, channel, message ) );
@@ -97,8 +93,7 @@ class MEO {
 	}
 
 	static showGoldRate = ( bot, channel, message ) => {
-		const key_words_gold = /(gold|vàng)/g;
-		if ( ! message.includes( key_words_gold ) ) {
+		if ( ! message.match( MeoData.key_words_gold ) ) {
 			return;
 		}
 
