@@ -15,6 +15,7 @@ const MeoData = {
 	memberData: [
 		{ name: 'sếp', sex: 'male', dob: '11/11', desc: 'đẹp trai' },
 		{ name: 'long', sex: 'male', dob: '4/1', desc: 'cute' },
+		{ name: 'asd', sex: 'male', dob: '1/9', desc: 'cute' },
 		{ name: 'thanh', sex: 'female', dob:'12/8', desc: 'xinh đẹp' },
 
 	],

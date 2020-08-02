@@ -65,12 +65,13 @@ class MEO {
 		let birthday = [];
 
 		MeoData.memberData.forEach( el => {
-			if ( parseInt( el.dob.split( '/' )[1] ) >= today.month && parseInt( el.dob.split( '/' )[0] ) >= today.date ) {
+			if ( parseInt( el.dob.split( '/' )[1] ) > today.month
+				|| ( parseInt( el.dob.split( '/' )[1] ) == today.month && parseInt( el.dob.split( '/' )[0] ) >= today.date ) ) {
 				birthday.push( el );
 			}
 		} );
 
-		console.log ( closetDate( birthday ) );
+		console.log( closetDate( birthday ) );
 	}
 
 	static convertToVnd = ( bot, channel, message ) => {

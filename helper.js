@@ -85,7 +85,7 @@ const getToday = () => {
 }
 
 const closetDate = ( arr ) => {
-	let closetEle = arr[1];
+	let closetEle = arr[0];
 
 	// arr.forEach( el => {
 	// 	if ( parseInt( el.dob.split( '/' )[1] ) < parseInt( closetEle.month ) ) {
@@ -99,9 +99,9 @@ const closetDate = ( arr ) => {
 	// } );
 
 	for ( let i=1; i<arr.length; i++ ) {
-		if ( parseInt( arr[i].dob.split( '/' )[1] ) < parseInt( closetEle.month ) ) {
-			console.log(arr[i]);
-		} 
+		if ( parseInt( arr[i].dob.split( '/' )[1] ) < parseInt( closetEle.dob.split( '/' )[1] ) ) {
+			closetEle = arr[i];
+		}
 	}
 
 	return closetEle;
