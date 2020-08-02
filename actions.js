@@ -1,6 +1,6 @@
 const fetch = require( 'node-fetch' );
 const { MeoData } = require( './data' );
-const { getCommonData, getMemberInfo, getGoldPrice } = require( './helper' );
+const { getCommonData, getMemberInfo, getGoldPrice, getToday } = require( './helper' );
 
 const dotenv   = require( 'dotenv' );
 dotenv.config();
@@ -17,13 +17,11 @@ const handleMessage = ( message, bot, channel ) => {
 
 class MEO {
 	static getHelp = ( bot, channel, message ) => {
-		if ( ! message.match( MeoData.key_words_help ) ) {
+		if ( ! message.match( MeoData.key_words_help ) || 'meomeo' === message ) {
 			return;
 		}
 
-		const options = 'type meomeo with "joke" | "dinner" | "gold" | "vnd" to "cuddle" with him';
-
-		bot.postMessage( channel, options );
+		bot.postMessage( channel, 'dạ meomeo đây ạ!' );
 	}
 
 	static makeJoke = ( bot, channel, message ) => {
@@ -62,6 +60,14 @@ class MEO {
 		}
 	}
 
+	// static alertBirthDay = ( bot, channel, message ) => {
+	// 	if ( ! message.match( MeoData.key_words_birthday ) ) {
+	// 		return;
+	// 	}
+
+	// 	console.log( 'asdas' )
+	// }
+
 	static convertToVnd = ( bot, channel, message ) => {
 		if ( ! message.match( MeoData.key_words_currency ) ) {
 			return;
@@ -91,7 +97,8 @@ class MEO {
 	}
 
 	static showGoldRate = ( bot, channel, message ) => {
-		if ( ! message.match( MeoData.key_words_gold ) ) {
+		const key_words_gold = /(gold|vàng)/g;
+		if ( ! message.includes( key_words_gold ) ) {
 			return;
 		}
 

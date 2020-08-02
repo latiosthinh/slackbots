@@ -37,7 +37,7 @@ const getMemberInfo = async () => {
 	return infos;
 }
 
-async function getGoldPrice() {
+const getGoldPrice = async () => {
 	let priceArr     = [];
 	let titleArr     = [];
 	let priceBuyArr  = [];
@@ -72,8 +72,21 @@ async function getGoldPrice() {
 	return priceArr;
 }
 
+const getToday = () => {
+	let d     = new Date();
+
+	const date  = d.getDate();
+	const month = d.getMonth() + 1;
+
+	return {
+		'date': date,
+		'month': month
+	};
+}
+
 module.exports = {
 	getCommonData,
 	getMemberInfo,
 	getGoldPrice,
+	getToday,
 };

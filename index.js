@@ -30,13 +30,15 @@ bot.on( 'message', async ( data ) => {
 	if ( message.match( MeoData.key_words_trigger ) ) {
 		handleMessage( message, bot, channel );
 	}
+
 	else if ( message.match( MeoData.key_words_hello ) ) {
 		bot.postMessage( channel, 'dạ, em tên là MeoMeo ạ!' );
 	}
-	else {
-		simsimi( message ).then( res => {
-			bot.postMessage( channel, res );
-		}, e => console.error( 'simsimi error:', e ) );
-	}
+
+	// else {
+	// 	simsimi( message ).then( res => {
+	// 		bot.postMessage( channel, res );
+	// 	}, e => console.error( 'simsimi error:', e ) );
+	// }
 } )
 
