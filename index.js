@@ -2,6 +2,8 @@ const SlackBot = require( 'slackbots' );
 const dotenv   = require( 'dotenv' );
 dotenv.config();
 
+const { MeoData } = require( './data' );
+
 const { handleMessage } = require( './actions' );
 
 const simsimi = require( 'simsimi' )( {
@@ -25,10 +27,13 @@ bot.on( 'message', async ( data ) => {
 	const message = data.text;
 	const channel = data.channel;
 
-	const key_words = /meomeo/i;
-	if ( message.match( key_words ) ) {
+	if ( message.match( MeoData.key_words_trigger ) ) {
 		handleMessage( message, bot, channel );
-	} else {
+	}
+	else if ( message.match( MeoData.key_words_hello ) ) {
+		bot.postMessage( channel, 'dạ, em tên là MeoMeo ạ!' );
+	}
+	else {
 		simsimi( message ).then( res => {
 			bot.postMessage( channel, res );
 		}, e => console.error( 'simsimi error:', e ) );
