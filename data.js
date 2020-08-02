@@ -26,7 +26,7 @@ const MeoData = {
 	key_words_member  : /(sếp|việt|long|hương|linh|lộc|hải|thanh)/g,
 	key_words_dinner  : /(dinner|ăn|tối nay)/g,
 	key_words_joke    : /(joke|funny|cười|truyện)/g,
-	key_words_help    : /(help)/g,
+	key_words_help    : /(help|giúp)/g,
 	key_words_hello   : /(bạn.tên|em.tên|mày.tên)/g,
 	key_words_birthday: /(sinh.nhật.gần|sinh.nhật.sắp|sắp.tới.sinh.nhật)/g
 }
