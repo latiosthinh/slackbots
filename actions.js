@@ -1,6 +1,6 @@
 const fetch = require( 'node-fetch' );
 const { MeoData } = require( './data' );
-const { getCommonData, getMemberInfo, getGoldPrice, getToday } = require( './helper' );
+const { getCommonData, getMemberInfo, getGoldPrice, getToday, closetDate } = require( './helper' );
 
 const dotenv   = require( 'dotenv' );
 dotenv.config();
@@ -56,13 +56,22 @@ class MEO {
 		}
 	}
 
-	// static alertBirthDay = ( bot, channel, message ) => {
-	// 	if ( ! message.match( MeoData.key_words_birthday ) ) {
-	// 		return;
-	// 	}
+	static alertBirthDay = ( bot, channel, message ) => {
+		if ( ! message.match( MeoData.key_words_birthday ) ) {
+			return;
+		}
 
-	// 	console.log( 'asdas' )
-	// }
+		const today = getToday();
+		let birthday = [];
+
+		MeoData.memberData.forEach( el => {
+			if ( parseInt( el.dob.split( '/' )[1] ) >= today.month && parseInt( el.dob.split( '/' )[0] ) >= today.date ) {
+				birthday.push( el );
+			}
+		} );
+
+		console.log ( closetDate( birthday ) );
+	}
 
 	static convertToVnd = ( bot, channel, message ) => {
 		if ( ! message.match( MeoData.key_words_currency ) ) {

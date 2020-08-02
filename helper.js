@@ -73,7 +73,7 @@ const getGoldPrice = async () => {
 }
 
 const getToday = () => {
-	let d     = new Date();
+	let d = new Date();
 
 	const date  = d.getDate();
 	const month = d.getMonth() + 1;
@@ -84,9 +84,33 @@ const getToday = () => {
 	};
 }
 
+const closetDate = ( arr ) => {
+	let closetEle = arr[1];
+
+	// arr.forEach( el => {
+	// 	if ( parseInt( el.dob.split( '/' )[1] ) < parseInt( closetEle.month ) ) {
+	// 		closetEle = el;
+	// 	} 
+		// else if ( parseInt( el.dob.split( '/' )[1] ) == parseInt( closetEle.month ) ) {
+		// 	if ( parseInt( el.dob.split( '/' )[0] ) <= parseInt( closetEle.date ) ) {
+		// 		closetEle = el;
+		// 	}
+		// }
+	// } );
+
+	for ( let i=1; i<arr.length; i++ ) {
+		if ( parseInt( arr[i].dob.split( '/' )[1] ) < parseInt( closetEle.month ) ) {
+			console.log(arr[i]);
+		} 
+	}
+
+	return closetEle;
+}
+
 module.exports = {
 	getCommonData,
 	getMemberInfo,
 	getGoldPrice,
 	getToday,
+	closetDate,
 };

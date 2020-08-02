@@ -14,7 +14,9 @@ const MeoData = {
 
 	memberData: [
 		{ name: 'sếp', sex: 'male', dob: '11/11', desc: 'đẹp trai' },
-		{ name: 'thanh', sex: 'female', dob:'12/08', desc: 'xinh đẹp' }
+		{ name: 'long', sex: 'male', dob: '4/1', desc: 'cute' },
+		{ name: 'thanh', sex: 'female', dob:'12/8', desc: 'xinh đẹp' },
+
 	],
 
 	exchangeURL: 'http://data.fixer.io/api/latest?access_key=0b5799d1638139b86f5730be7a8e8b54&format=1',
