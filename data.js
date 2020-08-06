@@ -34,7 +34,7 @@ const MeoData = {
 		currency: /(vnd|usd|cny|jpy|krw|thb)/g,
 		gold    : /(gold|vàng)/g,
 		member  : /(sếp|việt|long|hương|linh|lộc|hải|thanh)/g,
-		qmember : /(nào|là ai|á)/g,
+		qmember : /(nào|là ai|á|ko|không)/g,
 		dinner  : /(dinner|ăn|món)/g,
 		joke    : /(joke|funny|cười|vui)/g,
 		help    : /(help|giúp)/g,
