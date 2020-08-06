@@ -3,13 +3,13 @@ const MeoData = {
 		'sếp': 0,
 		'việt': 1,
 		'long': 2,
-		'hương lớn': 3,
-		'linh lớn': 4,
+		'lê hương': 3,
+		'diệu linh': 4,
 		'hải': 5,
 		'lộc': 6,
-		'hương bé': 7,
+		'phạm hương': 7,
 		'thanh': 8,
-		'linh bé': 9
+		'khánh linh': 9
 	},
 
 	memberData: [
