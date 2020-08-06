@@ -129,6 +129,16 @@ class MEO {
 			bot.postMessage( channel, message_content );
 		} )
 	}
+
+	static getAuthor = () => {
+		if ( ! message.match( MeoData.keywords.author ) ) {
+			return;
+		}
+
+		let message_content = 'MeoMeo không biết đâu! Có gì hỏi anh Thịnh nhé!!!'
+
+		bot.postMessage( channel, message_content );
+	}
 };
 
 module.exports = {

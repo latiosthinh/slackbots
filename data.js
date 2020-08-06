@@ -29,8 +29,8 @@ const MeoData = {
 	exchangeURL: 'http://data.fixer.io/api/latest?access_key=0b5799d1638139b86f5730be7a8e8b54&format=1',
 
 	keywords: {
-		trigger: /meomeo/i,
-
+		trigger : /meomeo/i,
+		author  : /(ai tạo ra em|tác giả)/g,
 		currency: /(vnd|usd|cny|jpy|krw|thb)/g,
 		gold    : /(gold|vàng)/g,
 		member  : /(sếp|việt|long|hương|linh|lộc|hải|thanh)/g,
