@@ -5,9 +5,9 @@ const { GoogleSpreadsheet } = require( 'google-spreadsheet' );
 const doc = new GoogleSpreadsheet( `${ process.env.SHEET_ID }` );
 doc.useApiKey( `${ process.env.SHEET_API }` );
 
-const rp  = require( 'request-promise' );
-const $   = require('cheerio');
-const url = `${ process.env.FETCH_URL }`;
+const axios = require( 'axios' );
+const $     = require('cheerio');
+const url   = `${ process.env.FETCH_URL }`;
 
 const getCommonData = async ( sheetNumber ) => {
 	await doc.loadInfo();
@@ -43,15 +43,15 @@ const getGoldPrice = async () => {
 	let priceBuyArr  = [];
 	let priceSellArr = [];
 
-	await rp( url )
+	await axios.get( url )
 		.then( ( html ) => {
-			$( 'td.ylo2_text', html ).each( ( i, el ) => {
+			$( 'td.ylo2_text', html.data ).each( ( i, el ) => {
 				if ( i > 2 ) {
 					titleArr.push( $(el).text() )
 				}
 			} )
 
-			$( 'td.white_text span', html ).each( ( i, el ) => {
+			$( 'td.white_text span', html.data ).each( ( i, el ) => {
 				if ( i%2==0 ) {
 					priceBuyArr.push( $(el).text() )
 				}
