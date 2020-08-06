@@ -38,8 +38,8 @@ const MeoData = {
 		dinner  : /(dinner|ăn|món)/g,
 		joke    : /(joke|funny|cười|vui)/g,
 		help    : /(help|giúp)/g,
-		hello   : /(bạn.tên|em.tên|mày.tên|bạn là ai|mày là ai)/g,
-		birthday: /(sinh.nhật.gần|sinh.nhật.sắp|sắp.tới.sinh.nhật|là.sinh.nhật)/g,
+		hello   : /(bạn tên|em tên|mày tên|bạn là ai|mày là ai)/g,
+		birthday: /(sinh nhật gần|sinh nhật sắp|sắp tới sinh nhật|là sinh nhật)/g,
 		gift    : /(tặng|quà)/g
 	},
 }
