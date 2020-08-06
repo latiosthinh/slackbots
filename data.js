@@ -1,15 +1,23 @@
 const MeoData = {
 	indexTable: {
 		'sếp': 0,
+		'tuấn anh': 0,
+		'sep': 0,
 		'việt': 1,
+		'viêt': 1,
 		'long': 2,
+		'long darkside': 2,
 		'lê hương': 3,
+		'hương nghìn': 3,
 		'diệu linh': 4,
+		'linh lớn': 4,
 		'hải': 5,
 		'lộc': 6,
 		'phạm hương': 7,
+		'hương bé': 7,
 		'thanh': 8,
-		'khánh linh': 9
+		'khánh linh': 9,
+		'linh bố láo': 9
 	},
 
 	memberData: [
