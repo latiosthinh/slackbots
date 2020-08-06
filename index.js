@@ -11,7 +11,7 @@ const bot = new SlackBot( {
 	name: 'meow'
 } );
 
-var simsimi = require( './simsimi' )( {
+const simsimi = require( './simsimi' )( {
 	key: `${ process.env.SIMSIMI_KEY_1 }`,
 	lang: 'vn',
 	api: 'https://wsapi.simsimi.com/190410/talk'
