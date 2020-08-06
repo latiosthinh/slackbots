@@ -130,7 +130,7 @@ class MEO {
 		} )
 	}
 
-	static getAuthor = () => {
+	static getAuthor = ( bot, channel, message ) => {
 		if ( ! message.match( MeoData.keywords.author ) ) {
 			return;
 		}

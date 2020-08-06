@@ -40,6 +40,7 @@ bot.on( 'message', async ( data ) => {
 		|| message.match( MeoData.keywords.help )		
 		|| message.match( MeoData.keywords.joke )		
 		|| message.match( MeoData.keywords.member )		
+		|| message.match( MeoData.keywords.author )		
 		) {
 		handleMessage( bot, channel, message );
 	}
