@@ -24,21 +24,29 @@ bot.on( 'message', async ( data ) => {
 		return;
 	}
 
-	const message = data.text;
+	const message = data.text.toLowerCase();
 	const channel = data.channel;
 
-	if ( message.match( MeoData.key_words_trigger ) ) {
-		handleMessage( message, bot, channel );
-	}
-
-	else if ( message.match( MeoData.key_words_hello ) ) {
+	if ( message.match( MeoData.keywords.hello ) ) {
 		bot.postMessage( channel, 'dạ, em tên là MeoMeo ạ!' );
 	}
-
-	// else {
-	// 	simsimi( message ).then( res => {
-	// 		bot.postMessage( channel, res );
-	// 	}, e => console.error( 'simsimi error:', e ) );
-	// }
+	else if ( 
+		message.match( MeoData.keywords.trigger )
+		|| message.match( MeoData.keywords.birthday )
+		|| message.match( MeoData.keywords.currency )
+		|| message.match( MeoData.keywords.dinner )
+		|| message.match( MeoData.keywords.gift )
+		|| message.match( MeoData.keywords.gold )
+		|| message.match( MeoData.keywords.help )		
+		|| message.match( MeoData.keywords.joke )		
+		|| message.match( MeoData.keywords.member )		
+		) {
+		handleMessage( bot, channel, message );
+	}
+	else {
+		simsimi( message ).then( res => {
+			bot.postMessage( channel, res );
+		}, e => console.error( 'simsimi error:', e ) );
+	}
 } )
 

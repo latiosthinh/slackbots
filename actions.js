@@ -5,15 +5,15 @@ const { getCommonData, getMemberInfo, getGoldPrice, getToday, closetDate } = req
 const dotenv   = require( 'dotenv' );
 dotenv.config();
 
-const handleMessage = ( message, bot, channel ) => {
+const handleMessage = (bot, channel, message ) => {
 	Object.values( MEO )
 		.filter( val => typeof val === 'function' )
-		.forEach( val => val( bot, channel, message ) );
+		.forEach( val => val( bot, channel, message.toLowerCase() ) );
 }
 
 class MEO {
 	static getHelp = ( bot, channel, message ) => {
-		if ( ! message.match( MeoData.key_words_help ) || 'meomeo' === message ) {
+		if ( ! message.match( MeoData.keywords.help ) || 'meomeo' === message ) {
 			return;
 		}
 
@@ -21,7 +21,7 @@ class MEO {
 	}
 
 	static makeJoke = ( bot, channel, message ) => {
-		if ( ! message.match( MeoData.key_words_joke ) ) {
+		if ( ! message.match( MeoData.keywords.joke ) ) {
 			return;
 		}
 
@@ -32,7 +32,7 @@ class MEO {
 	}
 
 	static prepareDinner = ( bot, channel, message ) => {
-		if ( ! message.match( MeoData.key_words_dinner ) ) {
+		if ( ! message.match( MeoData.keywords.dinner ) ) {
 			return;
 		}
 
@@ -43,7 +43,7 @@ class MEO {
 	}
 
 	static tellMemberInfo = ( bot, channel, message ) => {
-		if ( ! message.match( MeoData.key_words_member ) ) {
+		if ( ! message.match( MeoData.keywords.member ) || ! message.match( MeoData.keywords.qmember ) ) {
 			return;
 		}
 
@@ -57,7 +57,7 @@ class MEO {
 	}
 
 	static alertBirthDay = ( bot, channel, message ) => {
-		if ( ! message.match( MeoData.key_words_birthday ) ) {
+		if ( ! message.match( MeoData.keywords.birthday ) ) {
 			return;
 		}
 
@@ -71,11 +71,24 @@ class MEO {
 			}
 		} );
 
-		console.log( closetDate( birthday ) );
+		const nextPersonBirthday = closetDate( birthday );
+		const mes = `Sắp tới ngày ${nextPersonBirthday.dob} là sinh nhật của ${nextPersonBirthday.name[0].toUpperCase()+nextPersonBirthday.name.slice(1)} ${nextPersonBirthday.desc}`;
+		bot.postMessage( channel, mes );
+	}
+
+	static suggestGift = ( bot, channel, message ) => {
+		if ( ! message.match( MeoData.keywords.gift ) ) {
+			return;
+		}
+
+		getCommonData( 4 ).then( res => {
+			let randomFood = res[ Math.floor( Math.random() * res.length ) ];
+			bot.postMessage( channel, randomFood );
+		} );
 	}
 
 	static convertToVnd = ( bot, channel, message ) => {
-		if ( ! message.match( MeoData.key_words_currency ) ) {
+		if ( ! message.match( MeoData.keywords.currency ) ) {
 			return;
 		}
 
@@ -103,7 +116,7 @@ class MEO {
 	}
 
 	static showGoldRate = ( bot, channel, message ) => {
-		if ( ! message.match( MeoData.key_words_gold ) ) {
+		if ( ! message.match( MeoData.keywords.gold ) ) {
 			return;
 		}
 

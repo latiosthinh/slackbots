@@ -1,7 +1,7 @@
 const dotenv = require( 'dotenv' );
 dotenv.config();
 
-const { GoogleSpreadsheet } = require('google-spreadsheet');
+const { GoogleSpreadsheet } = require( 'google-spreadsheet' );
 const doc = new GoogleSpreadsheet( `${ process.env.SHEET_ID }` );
 doc.useApiKey( `${ process.env.SHEET_API }` );
 
@@ -86,17 +86,6 @@ const getToday = () => {
 
 const closetDate = ( arr ) => {
 	let closetEle = arr[0];
-
-	// arr.forEach( el => {
-	// 	if ( parseInt( el.dob.split( '/' )[1] ) < parseInt( closetEle.month ) ) {
-	// 		closetEle = el;
-	// 	} 
-		// else if ( parseInt( el.dob.split( '/' )[1] ) == parseInt( closetEle.month ) ) {
-		// 	if ( parseInt( el.dob.split( '/' )[0] ) <= parseInt( closetEle.date ) ) {
-		// 		closetEle = el;
-		// 	}
-		// }
-	// } );
 
 	for ( let i=1; i<arr.length; i++ ) {
 		if ( parseInt( arr[i].dob.split( '/' )[1] ) < parseInt( closetEle.dob.split( '/' )[1] ) ) {
