@@ -36,7 +36,7 @@ const MeoData = {
 		member  : /(sếp|việt|long|hương|linh|lộc|hải|thanh)/g,
 		qmember : /(nào|là ai|á)/g,
 		dinner  : /(dinner|ăn|món)/g,
-		joke    : /(joke|funny|cười|truyện)/g,
+		joke    : /(joke|funny|cười|vui)/g,
 		help    : /(help|giúp)/g,
 		hello   : /(bạn.tên|em.tên|mày.tên|bạn là ai|mày là ai)/g,
 		birthday: /(sinh.nhật.gần|sinh.nhật.sắp|sắp.tới.sinh.nhật|là.sinh.nhật)/g,

@@ -26,8 +26,8 @@
 		"dotenv": "^8.2.0",
 		"google-spreadsheet": "^3.0.11",
 		"googleapis": "^39.2.0",
+		"https": "^1.0.0",
 		"node-fetch": "^2.6.0",
-		"simsimi": "^3.0.0",
 		"slackbots": "^1.2.0"
 	}
 }

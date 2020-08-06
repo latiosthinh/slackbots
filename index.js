@@ -6,15 +6,15 @@ const { MeoData } = require( './data' );
 
 const { handleMessage } = require( './actions' );
 
-const simsimi = require( 'simsimi' )( {
-	key: `${ process.env.SIMSIMI_KEY_1 }`,
-    lc: 'vn',
-    ft: '1.0'
-} );
-
 const bot = new SlackBot( {
 	token: `${ process.env.BOT_TOKEN }`,
 	name: 'meow'
+} );
+
+var simsimi = require( './simsimi' )( {
+	key: `${ process.env.SIMSIMI_KEY_1 }`,
+	lang: 'vn',
+	api: 'https://wsapi.simsimi.com/190410/talk'
 } );
 
 bot.on( 'error', ( err ) => console.log( err ) );
